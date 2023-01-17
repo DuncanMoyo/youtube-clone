@@ -5,6 +5,7 @@ import { Typography, Box, Stack } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
 import { Videos } from "./";
 import { fetchFromAPI } from "../utils/fetchFromAPI";
+import Loader from "./Loader";
 
 const VideoDetail = () => {
   const [videoDetail, setVideoDetail] = useState(null);
@@ -16,19 +17,19 @@ const VideoDetail = () => {
       setVideoDetail(data.items[0])
     );
 
-    fetchFromAPI(`search?part=snippet&relatedToVideo=${id}&type=video`).then(
-      (data) => setVideos(data.items[0])
+    fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`).then(
+      (data) => setVideos(data.items)
     );
   }, [id]);
 
-  if (!videoDetail?.snippet) return "Loading...";
+  if (!videoDetail?.snippet) return <Loader />;
   const {
     snippet: { title, channelId, channelTitle },
     statistics: { viewCount, likeCount },
   } = videoDetail;
 
   return (
-    <Box minHeight="95vh">
+    <Box minHeight="100%">
       <Stack direction={{ xs: "column", md: "row" }}>
         <Box flex={1}>
           <Box sx={{ width: "100%", position: "sticky", top: "86px" }}>
@@ -71,11 +72,11 @@ const VideoDetail = () => {
         </Box>
         <Box
           px={2}
-          py={{ md: 1, xs: 5 }}
+          py={{ xs: 5, md: 1 }}
           justifyContent="center"
           alignItems="center"
         >
-          <Videos video={videos} direction="column" />
+          <Videos videos={videos} direction="column" />
         </Box>
       </Stack>
     </Box>
