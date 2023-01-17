@@ -8,7 +8,6 @@ import {
   demoVideoUrl,
   demoThumbnailUrl,
 } from "../utils/constants";
-import moment from "moment";
 
 const VideoCard = ({
   video: {
